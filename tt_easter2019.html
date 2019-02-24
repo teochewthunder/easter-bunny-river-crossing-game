@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Easter Bunny Game</title>
+		<style>
+			#container
+			{
+				width: 600px;
+				height: 450px;
+				outline: 1px solid #000000;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 10%;
+			}
+
+			#backgroundContainer
+			{
+				width: 100%;
+				height: 100%;
+				background-color: #AAAAFF;
+				overflow: hidden;
+			}
+
+			.rainbow
+			{
+				width: 90%;
+				height: 90%;
+				border-radius: 50%;
+				border: 10px solid rgba(255, 0, 255, 0.5);
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 50px;
+			}
+
+			.rainbow div
+			{
+				width: 96%;
+				height: 95%;
+				border-radius: 50%;
+				border: 10px solid rgba(155, 0, 255, 0.5);
+			}
+
+			.rainbow div div
+			{
+				border: 10px solid rgba(0, 0, 255, 0.5);
+			}
+
+			.rainbow div div div
+			{
+				border: 10px solid rgba(0, 255, 0, 0.5);
+			}
+
+			.rainbow div div div div
+			{
+				border: 10px solid rgba(255, 255, 0, 0.5);
+			}
+
+			.rainbow div div div div div
+			{
+				border: 10px solid rgba(255, 155, 0, 0.5);
+			}
+
+			.rainbow div div div div div div
+			{
+				border: 10px solid rgba(255, 0, 0, 0.5);
+			}
+
+			.water
+			{
+				width: 100%;
+				height: 60%;
+				background-color: #0000AA;
+				margin-top: -35%;
+			}
+
+			#gameContainer
+			{
+				width: 100%;
+				height: 100%;
+				margin-bottom: -450px;
+			}
+
+			#bankContainer
+			{
+				width: 100%;
+				height: 60%;
+				overflow: hidden;
+				outline: 1px solid #000000;
+			}
+
+			.bank
+			{
+				width: 100%;
+				height: 40%;
+				border-radius: 50%;
+				background-color: #009900;
+				margin-top: 95%;
+			}
+
+			.leftBank
+			{
+				width: 40%;
+				height: 100%;
+				float: left;
+				margin-left: -20%;
+			}
+
+			.rightBank
+			{
+				width: 40%;
+				height: 100%;
+				float: right;
+				margin-right: -20%;
+			}
+
+			.path
+			{
+				width: 60%;
+				height: 100%;
+				float: left;
+				outline: 1px solid #000000S;
+			}
+
+			.placeholder, .template
+			{
+				width: 40px;
+				height: 50px;
+				outline: 1px solid #000000;
+			}
+
+			.leftBank .placeholder
+			{
+				float: right;
+				margin-left: -10px;
+				margin-top: -20px;
+			}
+
+			.rightBank .placeholder
+			{
+				float: left;
+				margin-right: -10px;
+				margin-top: -20px;
+			}
+
+			.raft
+			{
+				width: 100px;
+				height: 5px;
+				background-color: #440000;
+				margin-top: 73%;
+			}
+
+			.raft .placeholder
+			{
+				float: left;
+				margin-right: -35px;
+				margin-top: -45px;
+			}
+
+			.boatman
+			{
+				width: 30px;
+				height: 60px;
+				margin-top: -60px;
+				float: right;
+				font-size: 20px;
+			}
+
+			.boatman:before
+			{
+				display: block;
+				content: "\263B";
+				width: 20px;
+				height: 20px;
+				margin: 0 auto 0 auto;
+				text-align: center;
+			}
+
+			.boatman:after
+			{
+				display: block;
+				content: "";
+				width: 20px;
+				height: 42px;
+				margin: -2px auto 0 auto;
+				border-radius: 50%;
+				background-color: #000000;
+			}
+
+			.bunny
+			{
+				width: 30px;
+				height: 60px;
+				font-size: 25px;
+				margin: 0 auto 0 auto;
+				padding-top: 10px;
+			}
+
+			.bunny_ears
+			{
+				width: 12px;
+				height: 10px;
+				margin: 0 auto 0 auto;
+			}
+
+			.bunny_ears:before, .bunny_ears:after
+			{
+				display: block;
+				content: "";
+				width: 5px;
+				height: 15px;
+				border-radius: 50%;
+				background-color: #FF44FF;	
+			}
+
+			.bunny_ears:before
+			{
+				float: left;
+			}
+
+			.bunny_ears:after
+			{
+				float: right;
+			}
+
+			.bunny_head
+			{
+				width: 15px;
+				height: 12px;
+				margin: 0 auto 0 auto;
+				border-radius: 50%;
+				background-color: #FF44FF;	
+			}
+
+			.bunny_body
+			{
+				display: block;
+				content: "";
+				width: 20px;
+				height: 20px;
+				margin: -3px auto 0 auto;
+				border-radius: 50%;
+				background-color: #FF44FF;	
+			}
+
+			.egg
+			{
+				width: 20px;
+				height: 50px;
+				margin: 0 auto 0 auto;
+				padding-top: 20px;
+			}
+
+			.egg_body
+			{
+ 				width: 20px; 
+ 				height: 30px; 
+ 				background-color: #DDDD00; 
+ 				border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+			}
+
+			.egg_body:before
+			{
+				display: block;
+				width: 20px;
+				height: 10px;
+				content: "o";
+				font-size: 10px;
+				color: #0055FF;	
+				text-align: center;
+			}
+
+			.egg_body:after
+			{
+				display: block;
+				width: 20px;
+				height: 10px;
+				content: "\2022";
+				font-size: 25px;
+				color: #FF44FF;	
+				text-align: right;
+			}
+		</style>
+
+		<script>
+
+		</script>
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="gameContainer">
+				<div id="bankContainer">
+					<div class="leftBank">
+						<div class="bank">
+							<div class="placeholder" id="leftBankBunny"></div>
+							<div class="placeholder" id="leftBankEgg"></div>
+							<div class="placeholder" id="leftBankFox"></div>
+						</div>
+
+					</div>
+
+					<div class="path">
+						<div class="raft">
+							<div class="placeholder" id="boatBunny"></div>
+							<div class="placeholder" id="boatEgg"></div>
+							<div class="placeholder" id="boatFox"></div>
+							<div class="boatman"></div>
+						</div>
+					</div>
+
+					<div class="rightBank">
+						<div class="bank">
+							<div class="placeholder" id="rightBankBunny"></div>
+							<div class="placeholder" id="rightBankEgg"></div>
+							<div class="placeholder" id="rightBankFox"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="backgroundContainer">
+				<div class="rainbow">
+					<div>
+						<div>
+							<div>
+								<div>
+									<div>
+										<div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="water">
+
+				</div>
+			</div>
+		</div>
+
+		<div id="templateBunny" class="template">
+			<div class="bunny">
+				<div class="bunny_ears"></div>
+				<div class="bunny_head"></div>
+				<div class="bunny_body"></div>
+			</div>
+		</div>
+
+		<div id="templateFox" class="template">
+			<div class="fox">
+
+			</div>
+		</div>
+
+		<div id="templateEgg" class="template">
+			<div class="egg">
+				<div class="egg_body"></div>
+			</div>
+		</div>
+	</body>
+</html>
