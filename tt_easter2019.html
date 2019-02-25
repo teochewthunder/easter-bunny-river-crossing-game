@@ -17,7 +17,7 @@
 			{
 				width: 100%;
 				height: 100%;
-				background-color: #AAAAFF;
+				background-color: #CCCCFF;
 				overflow: hidden;
 			}
 
@@ -26,7 +26,7 @@
 				width: 90%;
 				height: 90%;
 				border-radius: 50%;
-				border: 10px solid rgba(255, 0, 255, 0.5);
+				border: 10px solid rgba(255, 0, 255, 0.2);
 				margin-left: auto;
 				margin-right: auto;
 				margin-top: 50px;
@@ -37,32 +37,32 @@
 				width: 96%;
 				height: 95%;
 				border-radius: 50%;
-				border: 10px solid rgba(155, 0, 255, 0.5);
+				border: 10px solid rgba(155, 0, 255, 0.2);
 			}
 
 			.rainbow div div
 			{
-				border: 10px solid rgba(0, 0, 255, 0.5);
+				border: 10px solid rgba(0, 0, 255, 0.2);
 			}
 
 			.rainbow div div div
 			{
-				border: 10px solid rgba(0, 255, 0, 0.5);
+				border: 10px solid rgba(0, 255, 0, 0.2);
 			}
 
 			.rainbow div div div div
 			{
-				border: 10px solid rgba(255, 255, 0, 0.5);
+				border: 10px solid rgba(255, 255, 0, 0.2);
 			}
 
 			.rainbow div div div div div
 			{
-				border: 10px solid rgba(255, 155, 0, 0.5);
+				border: 10px solid rgba(255, 155, 0, 0.2);
 			}
 
 			.rainbow div div div div div div
 			{
-				border: 10px solid rgba(255, 0, 0, 0.5);
+				border: 10px solid rgba(255, 0, 0, 0.2);
 			}
 
 			.water
@@ -144,7 +144,7 @@
 
 			.raft
 			{
-				width: 100px;
+				width: 120px;
 				height: 5px;
 				background-color: #440000;
 				margin-top: 73%;
@@ -153,8 +153,8 @@
 			.raft .placeholder
 			{
 				float: left;
-				margin-right: -35px;
-				margin-top: -45px;
+				margin-right: -10px;
+				margin-top: -48px;
 			}
 
 			.boatman
@@ -190,10 +190,10 @@
 			.bunny
 			{
 				width: 30px;
-				height: 60px;
+				height: 50px;
 				font-size: 25px;
 				margin: 0 auto 0 auto;
-				padding-top: 10px;
+				padding-top: 15px;
 			}
 
 			.bunny_ears
@@ -227,18 +227,16 @@
 			{
 				width: 15px;
 				height: 12px;
-				margin: 0 auto 0 auto;
+				margin: 0 auto -5px auto;
 				border-radius: 50%;
 				background-color: #FF44FF;	
 			}
 
 			.bunny_body
 			{
-				display: block;
-				content: "";
 				width: 20px;
 				height: 20px;
-				margin: -3px auto 0 auto;
+				margin: 0 auto 0 auto;
 				border-radius: 50%;
 				background-color: #FF44FF;	
 			}
@@ -280,6 +278,61 @@
 				color: #FF44FF;	
 				text-align: right;
 			}
+
+			.fox
+			{
+				width: 30px;
+				height: 50px;
+				font-size: 35px;
+				margin: 0 auto 0 auto;
+			}
+
+			.fox_ears
+			{
+				width: 20px;
+				height: 10px;
+				margin: 0 auto 0 auto;
+			}
+
+			.fox_ears:before, .fox_ears:after
+			{
+				display: block;
+				content: "";
+				width: 5px;
+				height: 10px;
+				border-radius: 50%;
+				background-color: #FF4400;	
+			}
+
+			.fox_ears:before
+			{
+				float: left;
+			}
+
+			.fox_ears:after
+			{
+				float: right;
+			}
+
+			.fox_head
+			{
+				width: 0px;
+				height: 0px;
+				border-left: 15px solid transparent; 
+				border-right: 15px solid transparent; 
+				border-top: 25px solid #FF4400; 
+				border-radius: 50%;
+				margin: -45px auto 0 auto;
+			}
+
+			.fox_body
+			{
+				width: 25px;
+				height: 30px;
+				margin: 10px auto 0 auto;
+				border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+				background-color: #AA2200;	
+			}
 		</style>
 
 		<script>
@@ -293,27 +346,75 @@
 				<div id="bankContainer">
 					<div class="leftBank">
 						<div class="bank">
-							<div class="placeholder" id="leftBankBunny"></div>
-							<div class="placeholder" id="leftBankEgg"></div>
-							<div class="placeholder" id="leftBankFox"></div>
+							<div class="placeholder" id="leftBankBunny">
+			<div class="bunny">
+				<div class="bunny_ears"></div>
+				<div class="bunny_head"></div>
+				<div class="bunny_body"></div>
+			</div>
+							</div>
+							<div class="placeholder" id="leftBankEgg">
+			<div class="egg">
+				<div class="egg_body"></div>
+			</div>
+							</div>
+							<div class="placeholder" id="leftBankFox">
+			<div class="fox">
+				<div class="fox_ears"></div>
+				<div class="fox_body"></div>
+				<div class="fox_head"></div>
+			</div>
+							</div>
 						</div>
 
 					</div>
 
 					<div class="path">
 						<div class="raft">
-							<div class="placeholder" id="boatBunny"></div>
-							<div class="placeholder" id="boatEgg"></div>
-							<div class="placeholder" id="boatFox"></div>
+							<div class="placeholder" id="boatBunny">
+			<div class="bunny">
+				<div class="bunny_ears"></div>
+				<div class="bunny_head"></div>
+				<div class="bunny_body"></div>
+			</div>
+							</div>
+							<div class="placeholder" id="boatEgg">
+			<div class="egg">
+				<div class="egg_body"></div>
+			</div>
+							</div>
+							<div class="placeholder" id="boatFox">
+			<div class="fox">
+				<div class="fox_ears"></div>
+				<div class="fox_body"></div>
+				<div class="fox_head"></div>
+			</div>
+							</div>
 							<div class="boatman"></div>
 						</div>
 					</div>
 
 					<div class="rightBank">
 						<div class="bank">
-							<div class="placeholder" id="rightBankBunny"></div>
-							<div class="placeholder" id="rightBankEgg"></div>
-							<div class="placeholder" id="rightBankFox"></div>
+							<div class="placeholder" id="rightBankBunny">
+			<div class="bunny">
+				<div class="bunny_ears"></div>
+				<div class="bunny_head"></div>
+				<div class="bunny_body"></div>
+			</div>
+							</div>
+							<div class="placeholder" id="rightBankEgg">
+			<div class="egg">
+				<div class="egg_body"></div>
+			</div>
+							</div>
+							<div class="placeholder" id="rightBankFox">
+			<div class="fox">
+				<div class="fox_ears"></div>
+				<div class="fox_body"></div>
+				<div class="fox_head"></div>
+			</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -350,11 +451,17 @@
 			</div>
 		</div>
 
+		<br />
+
 		<div id="templateFox" class="template">
 			<div class="fox">
-
+				<div class="fox_ears"></div>
+				<div class="fox_body"></div>
+				<div class="fox_head"></div>
 			</div>
 		</div>
+
+		<br />
 
 		<div id="templateEgg" class="template">
 			<div class="egg">
