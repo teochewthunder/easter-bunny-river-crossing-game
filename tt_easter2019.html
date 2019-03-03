@@ -73,6 +73,16 @@
 				margin-top: -35%;
 			}
 
+			#messageBox
+			{
+				width: 70%;
+				height: 70%;
+				font-size: 16px;
+				font-family: verdana;
+				color: #FFFFFF;
+				margin: 0 auto 0 auto;
+			}
+
 			#gameContainer
 			{
 				width: 100%;
@@ -121,7 +131,7 @@
 				outline: 1px solid #000000S;
 			}
 
-			.placeholder, .template
+			.placeholder
 			{
 				width: 40px;
 				height: 50px;
@@ -142,19 +152,20 @@
 				margin-top: -20px;
 			}
 
-			.raft
+			#raft
 			{
-				width: 120px;
+				width: 80px;
 				height: 5px;
 				background-color: #440000;
 				margin-top: 73%;
+				margin-left: 0%;
+				transition: all 1s;
 			}
 
-			.raft .placeholder
+			#raft .placeholder
 			{
 				float: left;
-				margin-right: -10px;
-				margin-top: -48px;
+				margin-top: -50px;
 			}
 
 			.boatman
@@ -164,6 +175,7 @@
 				margin-top: -60px;
 				float: right;
 				font-size: 20px;
+				cursor: pointer;
 			}
 
 			.boatman:before
@@ -194,6 +206,7 @@
 				font-size: 25px;
 				margin: 0 auto 0 auto;
 				padding-top: 15px;
+				cursor: pointer;
 			}
 
 			.bunny_ears
@@ -247,6 +260,7 @@
 				height: 50px;
 				margin: 0 auto 0 auto;
 				padding-top: 20px;
+				cursor: pointer;
 			}
 
 			.egg_body
@@ -285,6 +299,7 @@
 				height: 50px;
 				font-size: 35px;
 				margin: 0 auto 0 auto;
+				cursor: pointer;
 			}
 
 			.fox_ears
@@ -336,84 +351,206 @@
 		</style>
 
 		<script>
+			var game = 
+			{
+				started: true,
+				paused: false,
+				moves: 0,
+				reset: function()
+				{
+					bunny.move("leftBank");
+					fox.move("leftBank");
+					egg.move("leftBank");
+					this.showMessage("title");
+					this.started = false;
+					this.paused = false;
+					this.moves = 0;
+				},
+				start: function()
+				{
+					this.reset();
+					this.started = true;
+					this.showMessage("started");
+				},
+				check: function()
+				{
+					if (fox.position == bunny.position && raft.position != fox.position && egg.position != fox.position)
+					{
+						this.showMessage("fox");
+						game.start = false;
+					}
 
+					if (bunny.position == egg.position && raft.position != bunny.position && fox.position != bunny.position)
+					{
+						this.showMessage("bunny");
+						game.start = false;
+					}
+				},
+				showMessage: function(messageType)
+				{
+					var messageBox = document.getElementById("messageBox");
+
+					if (messageType == "title") 
+					{
+						messageBox.innerHTML = "EASTER BUNNY CROSSING GAME <button onclick='game.start()'>Start</button>";
+					}
+
+					if (messageType == "started") 
+					{
+						messageBox.innerHTML = "<button>Restart</button>";
+					}
+
+					if (messageType == "fox") 
+					{
+						messageBox.innerHTML = "The fox has eaten the Easter Bunny!<br /><button onclick='game.start()' onclick='game.start()'>Restart</button>";
+					}
+
+					if (messageType == "bunny") 
+					{
+						messageBox.innerHTML = "The Easter Bunny has escaped with the egg!<br /><button onclick='game.start()'>Restart</button>";
+					}
+
+					if (messageType == "win") 
+					{
+						messageBox.innerHTML = "All three have crossed! You have completed this game in " + game.moves + " moves.<br /><button onclick='game.start()'>Restart</button>";
+					}
+				}
+			};
+
+			var passenger = 
+			{
+				id: "",
+				position: "leftBank",
+				render: function(position)
+				{
+					var placeholder = (position == "raft" ? "raftPassenger" : position + "_" + this.id);
+					document.getElementById(placeholder).innerHTML = document.getElementById("template_" + this.id).innerHTML;
+				},
+				move: function(position)
+				{
+					if (game.started && !game.paused)
+					{
+						var destination = position;
+
+						if (position == undefined)
+						{
+							if (this.position == "leftBank" || this.position == "rightBank") destination = "raft";
+
+							if (this.position == "raft")
+							{
+								destination = raft.position;
+							}
+						}
+
+						if (destination == "raft" && (fox.position == "raft" || bunny.position == "raft" || egg.position == "raft"))
+						{
+							alert("Only one passenger is allowed!");
+						}
+						else
+						{
+							if (this.position == "raft")
+							{
+								document.getElementById("raftPassenger").innerHTML = "";
+							}
+							else
+							{
+								document.getElementById(this.position + "_" + this.id).innerHTML = "";
+							}
+
+							this.render(destination);
+							this.position = destination;								
+						}
+					}
+				}	
+			}
+
+			var fox = Object.assign({}, passenger);
+			fox.id = "fox";
+
+			var bunny = Object.assign({}, passenger);
+			bunny.id = "bunny";
+
+			var egg = Object.assign({}, passenger);
+			egg.id = "egg";
+
+			var	raft = 
+			{
+				position: "leftBank",
+				move: function()
+				{
+					if (game.started && !game.paused)
+					{
+						var destination = (this.position == "leftBank" ? "rightBank" : "leftBank");
+						var objRaft = document.getElementById("raft");
+
+						if (destination == "leftBank")
+						{
+							objRaft.style.marginLeft = "0%";
+						}
+						else
+						{
+							objRaft.style.marginLeft = "78%";
+						}
+
+						game.paused = true;
+
+						var raft = this;
+
+						setTimeout
+						(
+							function()
+							{
+								raft.position = destination;
+								game.paused = false;
+								game.moves ++;
+								game.check();
+							},
+							1000
+						);						
+					}
+				}
+			}
 		</script>
 	</head>
 
-	<body>
+	<body onload = "game.reset()">
 		<div id="container">
 			<div id="gameContainer">
 				<div id="bankContainer">
 					<div class="leftBank">
 						<div class="bank">
-							<div class="placeholder" id="leftBankBunny">
-			<div class="bunny">
-				<div class="bunny_ears"></div>
-				<div class="bunny_head"></div>
-				<div class="bunny_body"></div>
-			</div>
+							<div class="placeholder" id="leftBank_bunny">
+
 							</div>
-							<div class="placeholder" id="leftBankEgg">
-			<div class="egg">
-				<div class="egg_body"></div>
-			</div>
+							<div class="placeholder" id="leftBank_egg">
+
 							</div>
-							<div class="placeholder" id="leftBankFox">
-			<div class="fox">
-				<div class="fox_ears"></div>
-				<div class="fox_body"></div>
-				<div class="fox_head"></div>
-			</div>
+							<div class="placeholder" id="leftBank_fox">
+
 							</div>
 						</div>
 
 					</div>
 
 					<div class="path">
-						<div class="raft">
-							<div class="placeholder" id="boatBunny">
-			<div class="bunny">
-				<div class="bunny_ears"></div>
-				<div class="bunny_head"></div>
-				<div class="bunny_body"></div>
-			</div>
+						<div id="raft">
+							<div class="placeholder" id="raftPassenger">
+
 							</div>
-							<div class="placeholder" id="boatEgg">
-			<div class="egg">
-				<div class="egg_body"></div>
-			</div>
-							</div>
-							<div class="placeholder" id="boatFox">
-			<div class="fox">
-				<div class="fox_ears"></div>
-				<div class="fox_body"></div>
-				<div class="fox_head"></div>
-			</div>
-							</div>
-							<div class="boatman"></div>
+							<div class="boatman" onclick="raft.move();"></div>
 						</div>
 					</div>
 
 					<div class="rightBank">
 						<div class="bank">
-							<div class="placeholder" id="rightBankBunny">
-			<div class="bunny">
-				<div class="bunny_ears"></div>
-				<div class="bunny_head"></div>
-				<div class="bunny_body"></div>
-			</div>
+							<div class="placeholder" id="rightBank_bunny">
+
 							</div>
-							<div class="placeholder" id="rightBankEgg">
-			<div class="egg">
-				<div class="egg_body"></div>
-			</div>
+							<div class="placeholder" id="rightBank_egg">
+
 							</div>
-							<div class="placeholder" id="rightBankFox">
-			<div class="fox">
-				<div class="fox_ears"></div>
-				<div class="fox_body"></div>
-				<div class="fox_head"></div>
-			</div>
+							<div class="placeholder" id="rightBank_fox">
+
 							</div>
 						</div>
 					</div>
@@ -438,13 +575,16 @@
 				</div>
 
 				<div class="water">
-
+					<br />
+					<div id="messageBox">
+test
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<div id="templateBunny" class="template">
-			<div class="bunny">
+		<div id="template_bunny" class="placeholder">
+			<div class="bunny" onclick="bunny.move()">
 				<div class="bunny_ears"></div>
 				<div class="bunny_head"></div>
 				<div class="bunny_body"></div>
@@ -453,8 +593,8 @@
 
 		<br />
 
-		<div id="templateFox" class="template">
-			<div class="fox">
+		<div id="template_fox" class="placeholder">
+			<div class="fox" onclick="fox.move()">
 				<div class="fox_ears"></div>
 				<div class="fox_body"></div>
 				<div class="fox_head"></div>
@@ -463,8 +603,8 @@
 
 		<br />
 
-		<div id="templateEgg" class="template">
-			<div class="egg">
+		<div id="template_egg" class="placeholder">
+			<div class="egg" onclick="egg.move()">
 				<div class="egg_body"></div>
 			</div>
 		</div>
