@@ -7,7 +7,7 @@
 			{
 				width: 600px;
 				height: 450px;
-				outline: 1px solid #000000;
+				outline: 0px solid #000000;
 				margin-left: auto;
 				margin-right: auto;
 				margin-top: 10%;
@@ -75,12 +75,19 @@
 
 			#messageBox
 			{
-				width: 70%;
-				height: 70%;
+				width: 90%;
+				height: 40%;
 				font-size: 16px;
 				font-family: verdana;
 				color: #FFFFFF;
 				margin: 0 auto 0 auto;
+				text-align: center;
+			}
+
+			#messageBox ol
+			{
+				font-size: 12px;
+				text-align: left;
 			}
 
 			#gameContainer
@@ -95,7 +102,7 @@
 				width: 100%;
 				height: 60%;
 				overflow: hidden;
-				outline: 1px solid #000000;
+				outline: 0px solid #000000;
 			}
 
 			.bank
@@ -128,14 +135,14 @@
 				width: 60%;
 				height: 100%;
 				float: left;
-				outline: 1px solid #000000S;
+				outline: 0px solid #000000S;
 			}
 
 			.placeholder
 			{
 				width: 40px;
 				height: 50px;
-				outline: 1px solid #000000;
+				outline: 0px solid #000000;
 			}
 
 			.leftBank .placeholder
@@ -348,19 +355,57 @@
 				border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
 				background-color: #AA2200;	
 			}
+
+			#btnStart
+			{
+				display: block;
+				width: 10em;
+				height: 2.5em;
+				padding: 0.5em;
+				border-radius: 5px;
+				margin: 0 auto 0 auto;
+				border: 0px solid #FFFFFF;
+				color: #FFFFFF;
+				background-color: rgba(255, 100, 0, 1);
+				cursor: pointer;
+			}
+
+			#btnStart:hover
+			{
+				color: rgba(255, 100, 0, 1);
+				background-color: rgba(255, 200, 0, 1);
+			}
+
+			#template_bunny, #template_egg, #template_fox
+			{
+				display: none;
+			}
 		</style>
 
 		<script>
 			var game = 
 			{
-				started: true,
+				started: false,
 				paused: false,
 				moves: 0,
 				reset: function()
 				{
-					bunny.move("leftBank");
-					fox.move("leftBank");
-					egg.move("leftBank");
+					bunny.position = "leftBank";
+					egg.position = "leftBank";
+					fox.position = "leftBank";
+
+					document.getElementById("raftPassenger").innerHTML = "";
+					document.getElementById("rightBank_bunny").innerHTML = "";
+					document.getElementById("rightBank_egg").innerHTML = "";
+					document.getElementById("rightBank_fox").innerHTML = "";
+
+					bunny.render("leftBank");
+					egg.render("leftBank");
+					fox.render("leftBank");
+
+					raft.position = "leftBank";
+					document.getElementById("raft").style.marginLeft = "0%";
+
 					this.showMessage("title");
 					this.started = false;
 					this.paused = false;
@@ -377,42 +422,57 @@
 					if (fox.position == bunny.position && raft.position != fox.position && egg.position != fox.position)
 					{
 						this.showMessage("fox");
-						game.start = false;
+						game.started = false;
+						game.paused = true;
 					}
 
 					if (bunny.position == egg.position && raft.position != bunny.position && fox.position != bunny.position)
 					{
 						this.showMessage("bunny");
-						game.start = false;
+						game.started = false;
+						game.paused = true;
+					}
+
+					if (bunny.position == "rightBank" && egg.position == "rightBank" && fox.position == "rightBank")
+					{
+						this.showMessage("win");
+						game.started = false;
+						game.paused = true;
 					}
 				},
 				showMessage: function(messageType)
 				{
 					var messageBox = document.getElementById("messageBox");
+					var button = document.getElementById("btnStart");
 
 					if (messageType == "title") 
 					{
-						messageBox.innerHTML = "EASTER BUNNY CROSSING GAME <button onclick='game.start()'>Start</button>";
+						messageBox.innerHTML = "EASTER BUNNY CROSSING GAME";
+						button.innerHTML = "Start";
 					}
 
 					if (messageType == "started") 
 					{
-						messageBox.innerHTML = "<button>Restart</button>";
+						messageBox.innerHTML = "<ol><li>The objective of this game is to get all three passengers across to the other bank.</li><li>The raft can hold only one passenger at a time.</li><li>The fox cannot be left alone with the Easter Bunny.</li><li>The Easter Bunny cannot be left alone with the egg.</li></ol>";
+						button.innerHTML = "Restart";
 					}
 
 					if (messageType == "fox") 
 					{
-						messageBox.innerHTML = "The fox has eaten the Easter Bunny!<br /><button onclick='game.start()' onclick='game.start()'>Restart</button>";
+						messageBox.innerHTML = "The fox has eaten the Easter Bunny!";
+						button.innerHTML = "Restart";
 					}
 
 					if (messageType == "bunny") 
 					{
-						messageBox.innerHTML = "The Easter Bunny has escaped with the egg!<br /><button onclick='game.start()'>Restart</button>";
+						messageBox.innerHTML = "The Easter Bunny has escaped with the egg!";
+						button.innerHTML = "Restart";
 					}
 
 					if (messageType == "win") 
 					{
-						messageBox.innerHTML = "All three have crossed! You have completed this game in " + game.moves + " moves.<br /><button onclick='game.start()'>Restart</button>";
+						messageBox.innerHTML = "All three have crossed! You have completed this game in " + game.moves + " moves.";
+						button.innerHTML = "Restart";
 					}
 				}
 			};
@@ -434,7 +494,13 @@
 
 						if (position == undefined)
 						{
-							if (this.position == "leftBank" || this.position == "rightBank") destination = "raft";
+							if (this.position == "leftBank" || this.position == "rightBank")
+							{
+								if (this.position == raft.position)
+								{
+									destination = "raft";
+								}
+							} 
 
 							if (this.position == "raft")
 							{
@@ -442,23 +508,28 @@
 							}
 						}
 
-						if (destination == "raft" && (fox.position == "raft" || bunny.position == "raft" || egg.position == "raft"))
+						if (destination != undefined)
 						{
-							alert("Only one passenger is allowed!");
-						}
-						else
-						{
-							if (this.position == "raft")
+							if (destination == "raft" && (fox.position == "raft" || bunny.position == "raft" || egg.position == "raft"))
 							{
-								document.getElementById("raftPassenger").innerHTML = "";
+								alert("Only one passenger is allowed!");
 							}
 							else
 							{
-								document.getElementById(this.position + "_" + this.id).innerHTML = "";
+								if (this.position == "raft")
+								{
+									document.getElementById("raftPassenger").innerHTML = "";
+								}
+								else
+								{
+									document.getElementById(this.position + "_" + this.id).innerHTML = "";
+								}
+
+								this.render(destination);
+								this.position = destination;								
 							}
 
-							this.render(destination);
-							this.position = destination;								
+							game.check();							
 						}
 					}
 				}	
@@ -577,8 +648,9 @@
 				<div class="water">
 					<br />
 					<div id="messageBox">
-test
+
 					</div>
+					<button id="btnStart" onclick="game.start()">Start</button>
 				</div>
 			</div>
 		</div>
