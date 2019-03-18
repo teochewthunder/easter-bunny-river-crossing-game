@@ -7,7 +7,7 @@
 			{
 				width: 600px;
 				height: 450px;
-				outline: 0px solid #000000;
+				outline: 1px solid #000000;
 				margin-left: auto;
 				margin-right: auto;
 				margin-top: 10%;
@@ -17,7 +17,11 @@
 			{
 				width: 100%;
 				height: 100%;
-				background-color: #CCCCFF;
+				background: #1e5799; /* Old browsers */
+				background: -moz-linear-gradient(top, #1e5799 0%, #a7cae5 57%); /* FF3.6-15 */
+				background: -webkit-linear-gradient(top, #1e5799 0%,#a7cae5 57%); /* Chrome10-25,Safari5.1-6 */
+				background: linear-gradient(to bottom, #1e5799 0%,#a7cae5 57%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#a7cae5',GradientType=0 ); /* IE6-9 */
 				overflow: hidden;
 			}
 
@@ -69,7 +73,11 @@
 			{
 				width: 100%;
 				height: 60%;
-				background-color: #0000AA;
+				background: #0e1449; /* Old browsers */
+				background: -moz-linear-gradient(left, #0e1449 17%, #383566 51%, #0e1449 80%); /* FF3.6-15 */
+				background: -webkit-linear-gradient(left, #0e1449 17%,#383566 51%,#0e1449 80%); /* Chrome10-25,Safari5.1-6 */
+				background: linear-gradient(to right, #0e1449 17%,#383566 51%,#0e1449 80%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e1449', endColorstr='#0e1449',GradientType=1 ); /* IE6-9 */
 				margin-top: -35%;
 			}
 
@@ -120,6 +128,7 @@
 				height: 100%;
 				float: left;
 				margin-left: -20%;
+				outline: 0px solid #000000;
 			}
 
 			.rightBank
@@ -128,6 +137,7 @@
 				height: 100%;
 				float: right;
 				margin-right: -20%;
+				outline: 0px solid #000000;
 			}
 
 			.path
@@ -135,7 +145,7 @@
 				width: 60%;
 				height: 100%;
 				float: left;
-				outline: 0px solid #000000S;
+				outline: 0px solid #FF0000;
 			}
 
 			.placeholder
@@ -202,7 +212,7 @@
 				width: 20px;
 				height: 42px;
 				margin: -2px auto 0 auto;
-				border-radius: 50%;
+				border-radius: 50% 50% 50% 50% / 20% 20% 80% 80%;
 				background-color: #000000;
 			}
 
@@ -533,7 +543,7 @@
 						}
 					}
 				}	
-			}
+			};
 
 			var fox = Object.assign({}, passenger);
 			fox.id = "fox";
@@ -580,11 +590,11 @@
 						);						
 					}
 				}
-			}
+			};
 		</script>
 	</head>
 
-	<body onload = "game.reset()">
+	<body onload="game.reset()">
 		<div id="container">
 			<div id="gameContainer">
 				<div id="bankContainer">
