@@ -220,7 +220,6 @@
 			{
 				width: 30px;
 				height: 50px;
-				font-size: 25px;
 				margin: 0 auto 0 auto;
 				padding-top: 15px;
 				cursor: pointer;
@@ -286,7 +285,7 @@
  				height: 30px; 
  				background-color: #DDDD00; 
  				border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-			}
+			}			
 
 			.egg_body:before
 			{
@@ -485,7 +484,7 @@
 						button.innerHTML = "Restart";
 					}
 				}
-			};
+			}
 
 			var passenger = 
 			{
@@ -496,26 +495,23 @@
 					var placeholder = (position == "raft" ? "raftPassenger" : position + "_" + this.id);
 					document.getElementById(placeholder).innerHTML = document.getElementById("template_" + this.id).innerHTML;
 				},
-				move: function(position)
+				move: function()
 				{
 					if (game.started && !game.paused)
 					{
-						var destination = position;
+						var destination = undefined;
 
-						if (position == undefined)
+						if (this.position == "leftBank" || this.position == "rightBank")
 						{
-							if (this.position == "leftBank" || this.position == "rightBank")
+							if (this.position == raft.position)
 							{
-								if (this.position == raft.position)
-								{
-									destination = "raft";
-								}
-							} 
-
-							if (this.position == "raft")
-							{
-								destination = raft.position;
+								destination = "raft";
 							}
+						} 
+
+						if (this.position == "raft")
+						{
+							destination = raft.position;
 						}
 
 						if (destination != undefined)
@@ -543,7 +539,7 @@
 						}
 					}
 				}	
-			};
+			}
 
 			var fox = Object.assign({}, passenger);
 			fox.id = "fox";
@@ -610,7 +606,6 @@
 
 							</div>
 						</div>
-
 					</div>
 
 					<div class="path">
@@ -660,7 +655,7 @@
 					<div id="messageBox">
 
 					</div>
-					<button id="btnStart" onclick="game.start()">Start</button>
+					<button id="btnStart" onclick="game.start()"></button>
 				</div>
 			</div>
 		</div>
